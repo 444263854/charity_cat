@@ -10,16 +10,6 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {
-      '/api': {
-        target: 'http://localhost:4000',
-        //代理后的路劲为'http://localhost:3000/api'
-        //后端接口没有/api，pathRewrite重写'http://localhost:3000/api'==>'http://localhost:3000/'
-        pathRewrite: {
-          '^/api': ''
-        }
-      }
-    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
@@ -28,12 +18,14 @@ module.exports = {
     errorOverlay: true,
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
-
-
+    proxyTable: {
+      "/": {
+        target: "http://localhost:4000"
+      }
+    },
     /**
      * Source Maps
      */
-
     // https://webpack.js.org/configuration/devtool/#development
     devtool: 'cheap-module-eval-source-map',
 

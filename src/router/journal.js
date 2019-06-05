@@ -23,9 +23,17 @@ export default {
       name: 'journal_post_list',
       component: journal_post_list
     },
+    //为了激活active-class
     {
-      path: 'articleDetail/:id',
+      path: 'journal_record_list/articleDetail/:id',
       name: 'articleDetail',
+      alias: "articleDetail/:id",
+      component: articleDetail
+    },
+    {
+      path: 'journal_post_list/articleDetail/:id',
+      name: 'articleDetail2',
+      alias: 'articleDetail/:id',
       component: articleDetail
     },
   ]

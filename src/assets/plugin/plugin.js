@@ -1,43 +1,57 @@
 import '../styles/messageBox.css'
 import '../styles/loading.less'
+import window from './window';
 let messageBox = {
   install(Vue, options) {
     Vue.prototype.$messageBox = function (text, callback = () => {}) {
-      let shadowDiv = document.createElement('div'),
-        mBoxDiv = document.createElement('div'),
-        textWrap = document.createElement('div'),
-        text_con = document.createElement('div'),
-        btn_confirm = document.createElement('button'),
-        btn_cancel = document.createElement('button');
+      var messageBox = Vue.extend(window);
 
-      shadowDiv.className = 'shadowDiv'
-      mBoxDiv.className = 'messageBox'
-      textWrap.className = 'Box_con_wrap'
-      text_con.innerText = text
-      text_con.className = 'Box_content'
-      textWrap.appendChild(text_con)
-      mBoxDiv.appendChild(textWrap)
-
-      btn_confirm.innerText = '确定'
-      btn_confirm.className = 'messageBox_btn'
-      btn_cancel.innerText = '取消'
-      btn_cancel.className = 'messageBox_btn'
-      btn_cancel.style.background = '#fff'
-      btn_cancel.style.color = '#6f6f6f'
-
-      btn_confirm.onclick = function () {
-        document.body.removeChild(shadowDiv)
-        callback(true)
-      }
-      btn_cancel.onclick = function () {
-        document.body.removeChild(shadowDiv)
-        callback(false)
-      }
-      mBoxDiv.appendChild(btn_confirm)
-      mBoxDiv.appendChild(btn_cancel)
-      shadowDiv.appendChild(mBoxDiv)
-      document.body.appendChild(shadowDiv)
+      var vm = new messageBox({
+        propsData: {
+          text,
+          callback
+        }
+      });
+      vm.$mount();
+      document.body.appendChild(vm.$el);
+      vm = null;
     }
+    // Vue.prototype.$messageBox = function (text, callback = () => {}) {
+    //   let shadowDiv = document.createElement('div'),
+    //     mBoxDiv = document.createElement('div'),
+    //     textWrap = document.createElement('div'),
+    //     text_con = document.createElement('div'),
+    //     btn_confirm = document.createElement('button'),
+    //     btn_cancel = document.createElement('button');
+
+    //   shadowDiv.className = 'shadowDiv'
+    //   mBoxDiv.className = 'messageBox'
+    //   textWrap.className = 'Box_con_wrap'
+    //   text_con.innerText = text
+    //   text_con.className = 'Box_content'
+    //   textWrap.appendChild(text_con)
+    //   mBoxDiv.appendChild(textWrap)
+
+    //   btn_confirm.innerText = '确定'
+    //   btn_confirm.className = 'messageBox_btn'
+    //   btn_cancel.innerText = '取消'
+    //   btn_cancel.className = 'messageBox_btn'
+    //   btn_cancel.style.background = '#fff'
+    //   btn_cancel.style.color = '#6f6f6f'
+
+    //   btn_confirm.onclick = function () {
+    //     document.body.removeChild(shadowDiv)
+    //     callback(true)
+    //   }
+    //   btn_cancel.onclick = function () {
+    //     document.body.removeChild(shadowDiv)
+    //     callback(false)
+    //   }
+    //   mBoxDiv.appendChild(btn_confirm)
+    //   mBoxDiv.appendChild(btn_cancel)
+    //   shadowDiv.appendChild(mBoxDiv)
+    //   document.body.appendChild(shadowDiv)
+    // }
   }
 }
 let format = {

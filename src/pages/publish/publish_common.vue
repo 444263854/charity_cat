@@ -39,18 +39,17 @@
     quillEditor
   } from "vue-quill-editor";
 
+  function imgFile(url, name, size) {
+        this.dataUrl = url;
+        this.name = name;
+        this.sizes = size;
+      }
+
   export default {
     props: {
       /**
        * 图片上传的接口地址
        */
-      url: {
-        type: String,
-        required: true,
-        validator(value) {
-          return value !== "";
-        }
-      },
       category: {
         type: String,
         required: true
@@ -102,7 +101,7 @@
                 this.show_img_URL = result;
               }
               this.imgURLList.push(
-                new this.imgFile(result, file.name, file.sizes)
+                new imgFile(result, file.name, file.sizes)
               );
             });
           };
@@ -139,11 +138,7 @@
           };
         });
       },
-      imgFile(url, name, size) {
-        this.dataUrl = url;
-        this.name = name;
-        this.sizes = size;
-      },
+      
       /**
        * 展示图片
        */
@@ -180,7 +175,7 @@
         }
         //ajax  发送图片和文章
         this.axios
-          .post("/api" + this.url, {
+          .post( '/article/saveArticle', {
             title: this.title,
             imgList: this.imgURLList,
             content: this.content,

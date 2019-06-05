@@ -40,8 +40,8 @@
         clickable: true
       };
     },
-    mounted() {
-      if (this.$root.$data.get("isLogin")) {
+    created() {
+        if (this.$store.state.User.isLogin) {
         this.$router.replace({
           name: "home"
         });
@@ -49,14 +49,13 @@
     },
     methods: {
       loginHandler() {
-
         if (this.username == "" || this.password == "") {
           this.$messageBox("请输入用户名或密码");
           return;
         }
         this.clickable = false;
         this.axios
-          .post("api/user/login", {
+          .post("/user/login", {
             username: this.username,
             password: this.password,
             remember: this.remember
@@ -64,17 +63,17 @@
           .then(res => {
             //登录成功跳转到社区
             if (res.data.status == 200) {
-              this.$root.$data.set("avatar", res.data.content.avatar);
-              this.$root.$data.set("isLogin", true);
+              this.$store.commit("SET_AVATAR", res.data.content.avatar);
+              this.$store.commit("SET_LOGIN", 1);
+              const {redirect} = this.$route.query;
               this.$router.push({
-                name: "app"
+                path: redirect ||"/app"
               });
             } else {
               this.$messageBox(res.data.msg);
             }
             this.clickable = true;
           }).catch(err => {
-            this.$messageBox(err);
             this.clickable = true;
           });
       }

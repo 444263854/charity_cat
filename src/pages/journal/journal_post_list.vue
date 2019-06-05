@@ -5,7 +5,7 @@
         <Base-Button type="noround" class="publish_btn">发布</Base-Button>
       </router-link>
     </div>
-    <journal-item path="articleDetail" v-for="(value, index) in dataObj" v-bind="value" :key="index"></journal-item>
+    <journal-item path="articleDetail2" v-for="(value, index) in dataObj" v-bind="value" :key="index"></journal-item>
     <div class="loading">
       <Paging :total="total" @change="pageHandler"></Paging>
     </div>
@@ -22,7 +22,7 @@
       }
     },
     created() {
-      this.axios.post('api/article/List', {
+      this.axios.post('/article/List', {
         page: 1,
         total: true,
         category: 'findHost'
@@ -38,7 +38,7 @@
     },
     methods: {
       pageHandler(index) {
-        this.axios.post('api/article/List', {
+        this.axios.post('/article/List', {
           page: index,
           category: 'MyDaily'
         }).then((res) => {

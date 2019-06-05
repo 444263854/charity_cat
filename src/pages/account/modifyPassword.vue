@@ -75,7 +75,7 @@
         if (!this.validatePasswordHandler()) return;
         //ajax
         this.axios
-          .put("api/user/modifyPassword", {
+          .put("/user/modifyPassword", {
             username: this.username,
             password: this.password1,
             validateCode: this.validateCode
@@ -95,7 +95,7 @@
           return
         }
         this.disabled = true
-        this.axios.get('api/user/modifyPassword/Code', {
+        this.axios.get('/user/modifyPassword/Code', {
           params: {
             username: this.username
           }

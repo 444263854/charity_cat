@@ -22,9 +22,8 @@
       }
     },
     created() {
-      this.axios.post('api/article/List', {
+      this.axios.post('/article/List', {
         page: 1,
-        total: true,
         category: 'MyDaily'
       }).then((res) => {
         if (res.data.status == 200) {
@@ -38,7 +37,7 @@
     },
     methods: {
       pageHandler(index) {
-        this.axios.post('api/article/List', {
+        this.axios.post('/article/List', {
           page: index,
           category: 'MyDaily'
         }).then((res) => {

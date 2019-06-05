@@ -20,10 +20,9 @@
 
           <div class="my_head">
             <div class="pic" @click="toggle_dropdown_menuHandler">
-              <img :src="'api/'+avatar" v-if="avatar">
+              <img :src="avatar" v-if="avatar">
             </div>
             <div class="name"> <span @click="toggle_dropdown_menuHandler">{{username}}</span></div>
-
             <div class="dropdown_menu" :style="{display:dropdown_toggle}">
               <ul>
                 <li @click="toMineHandler">
@@ -56,7 +55,6 @@
     data() {
       return {
         dropdown_toggle: "none",
-        // isLogin: this.$root.$data.get("isLogin"),
         username: "zhangyong",
         messageCount: 10
       };
@@ -64,10 +62,11 @@
     methods: {
       logoutHandler() {
         this.dropdown_toggle = "none";
-        this.axios.get("api/user/logout").then(res => {
+        this.axios.get("/user/logout").then(res => {
           //刷新当前页
-          this.$root.$data.set("isLogin", false);
-          this.$router.go(0);
+          this.$store.dispatch("logout").then(()=>{
+            this.$router.push({name:'login'});
+          });
         });
       },
       toggle_dropdown_menuHandler() {
@@ -87,10 +86,10 @@
         return this.$route.name == "home" ? "#fcd8d8" : "#fff";
       },
       isLogin() {
-        return this.$root.$data.get("isLogin");
+        return this.$store.state.User.isLogin;
       },
       avatar() {
-        return this.$root.$data.get("avatar");
+        return this.$store.state.User.avatar;
       }
     }
   };

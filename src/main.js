@@ -5,19 +5,32 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+axios.defaults.baseURL = process.env.BASE_URL;
+axios.defaults.withCredentials = true;
+Vue.use(VueAxios, axios)
+
+import {
+  store
+} from './store/index.js';
 import './assets/styles/reset.css'
-import "quill/dist/quill.snow.css";
+import './directive/index'
+
 import {
   messageBox,
   format
 } from './assets/plugin/plugin'
+
+import "quill/dist/quill.snow.css";
 import VueQuillEditor from 'vue-quill-editor'
+
 
 Vue.use(messageBox)
 Vue.use(format)
 Vue.config.productionTip = false
-Vue.use(VueAxios, axios)
-Vue.use(VueQuillEditor)
+Vue.use(VueQuillEditor);
+
+import './permission'
+
 
 /**
  * 注册基础组件
@@ -37,29 +50,13 @@ requireComponent.keys().forEach(filename => {
     //如果组件是
     componentConfig.default || componentConfig);
 })
-/**全局状态 */
-const store = {
-  state: {
-    isLogin: false,
-    avatar: ''
-  },
-  set(key, newValue) {
-    if (this.state[key] === 'undefined') {
-      throw new Error('不存在该变量状态')
-    } else {
-      this.state[key] = newValue
-    }
-  },
-  get(key) {
-    return this.state[key]
-  }
-}
+
 /**axios 拦截器 */
 axios.interceptors.response.use(function (res) {
   return res;
 }, function (err) {
   if (err.response.status == 401) {
-    store.set('isLogin', false);
+    store.commit('SET_LOGIN', 0);
     Vue.prototype.$messageBox("没有登录，或登录失效", function (boolean) {
       router.push({
         name: "login"
@@ -71,64 +68,10 @@ axios.interceptors.response.use(function (res) {
   return Promise.reject(error);
 })
 
-/**全局守卫 */
-router.beforeEach((to, from, next) => {
-  const isRequire = to.matched.some(route => {
-    if (route.meta.requiresAuto) {
-      return true
-    } else {
-      return false
-    }
-  })
-  if (isRequire) {
-    if (store.get('isLogin')) {
-      next()
-    } else {
-      axios.get('api/user/check').then(res => {
-        if (res.data) {
-          store.set('isLogin', true);
-          next()
-        } else {
-          store.set('isLogin', false)
-          notLogin()
-        }
-      }).catch(err => {
-        notLogin()
-        throw new Error(err)
-      })
-
-      function notLogin() {
-        Vue.prototype.$messageBox('没有登录，或登录失效', function (boolean) {
-          if (boolean) {
-            router.push({
-              name: "login"
-            })
-          } else {
-            router.replace({
-              name: from.name
-            })
-          }
-        })
-      }
-    }
-  } else {
-    next()
-  }
-})
-// 注册一个全局自定义指令 `v-focus`
-Vue.directive('focus', {
-  // 当被绑定的元素插入到 DOM 中时……
-  inserted: function (el) {
-    // 聚焦元素
-    el.focus()
-  }
-})
-
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  data: store,
+  store,
   router,
   render: (h) => h(App)
 })

@@ -1,6 +1,6 @@
 <template>
 
-  <pulish-common url="/article/cat_daily" category="MyDaily"></pulish-common>
+  <pulish-common  category="MyDaily"></pulish-common>
 </template>
 
 

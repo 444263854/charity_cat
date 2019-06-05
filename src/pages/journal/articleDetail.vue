@@ -10,7 +10,7 @@
 
     <div class="edit_comment">
       <div class="pic">
-        <img :src="'api/'+avatar" v-if="avatar">
+        <img :src="avatar" v-if="avatar">
       </div>
       <textarea class="edit_con" :class="{change_bor_color: isFocus}" v-model="comment_edit_text" @focus="isFocus = true"
         @blur="isFocus = false" placeholder="  说点什么..." ref="comment_edit"></textarea>
@@ -36,7 +36,7 @@
   export default {
     computed: {
       avatar() {
-        return this.$root.$data.get('avatar')
+        return this.$store.avatar
       }
     },
     data() {
@@ -66,11 +66,8 @@
     },
     methods: {
       getArticle() {
-        this.axios.get('api/article/detail', {
-          params: {
-            articleID: this.$route.params.id
-          }
-        }).then((res) => {
+        this.axios.get('/article/'+this.$route.params.id)
+        .then((res) => {
           if (res.data.status == 200) {
             var con = res.data.content;
             this.detailData.title = con.title;
@@ -85,7 +82,7 @@
       },
       //评论
       commentHandler() {
-        this.axios.post('api/comment', {
+        this.axios.post('/comment', {
           comment: this.comment_edit_text
         }, {
           params: {
@@ -105,7 +102,7 @@
         })
       },
       getComment() {
-        this.axios.get('api/comment', {
+        this.axios.get('/comment', {
             params: {
               articleID: this.$route.params.id,
               page: this.pages++,

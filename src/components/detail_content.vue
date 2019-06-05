@@ -13,13 +13,13 @@
     </div>
     <div class="imgWrap">
       <div class="innerWrap">
-        <img :src="'api/'+imgSrc" v-if="imgSrc">
+        <img :src="imgSrc" v-if="imgSrc">
       </div>
     </div>
     <div class="imgList">
       <ul>
         <li v-for="(src, index) in imgList" :key="index" @click="toggleImgHandler( src,index) ">
-          <img :src="'api/'+src" :class="{active:index ==activeIndex}">
+          <img :src="src" :class="{active:index ==activeIndex}">
         </li>
       </ul>
     </div>

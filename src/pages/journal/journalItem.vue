@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="detail ql-snow">
-      <div class="imgWrap"><img :src="'api/'+imgURL"></div>
+      <div class="imgWrap"><img :src="imgURL"></div>
       <div class="overview ql-editor ql-blank" v-html="abstract">
 
       </div>

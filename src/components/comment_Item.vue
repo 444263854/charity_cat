@@ -1,7 +1,7 @@
 <template>
   <div class="comment_con clear">
     <div class="pic">
-      <img :src="'api/'+userImg">
+      <img :src="userImg">
     </div>
     <div class="content">
       <div class="con_text">

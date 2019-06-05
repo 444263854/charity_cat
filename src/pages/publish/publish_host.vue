@@ -1,5 +1,5 @@
 <template>
-  <pulish-common url="/article/find_host" category="findHost"></pulish-common>
+  <pulish-common  category="findHost"></pulish-common>
 </template>
 
 

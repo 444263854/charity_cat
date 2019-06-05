@@ -65,7 +65,7 @@
           return
         }
         this.disabled = true
-        this.axios.get('api/user/register/Code', {
+        this.axios.get('/user/register/Code', {
           params: {
             username: this.username
           }
@@ -81,6 +81,7 @@
               this.disabled = false
               this.btnMsg = '获取验证码'
               clearInterval(interId)
+              
             }
           }, 1000)
         }).catch((err) => {
@@ -90,7 +91,6 @@
       registerHandler(e) {
         e.preventDefault();
 
-        console.log("​registerHandler -> this.$refs['username']", this.$refs['username']);
         if (this.username == "") {
           this.$messageBox("用户名不能为空");
           return;
@@ -107,7 +107,7 @@
         if (!this.emailValidate()) return;
         //ajax
         this.axios
-          .post("api/user/register", {
+          .post("/user/register", {
             name: this.username,
             username: this.username,
             password: this.password1,
